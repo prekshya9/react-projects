@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-
+import { AiFillDelete } from "react-icons/ai"
 function Todolist() {
     const [data, setdata] = useState([])
     const [apple, setApple] = useState("")
 
-    console.log(apple)
+    function handleData(id){
+        const newData = data.filter((item)=>  item.id !== id)
+        setdata(newData)
+    }
     return (
         <>
+
             <input
                 type='text'
                 placeholder='Todolist'
@@ -14,17 +18,22 @@ function Todolist() {
                 onChange={(e) => setApple(e.target.value)}
             />
             <button onClick={() => {
-                setdata([...data, apple])
+                setdata([...data,{ id: Math.floor(Math.random() * 10000), value: apple }])
                 setApple("")
             }
             }> Submit</button>
+            <button onClick={() => {
+                setdata([])
+
+            }
+            }> Clear All</button>
 
 
 
             {data.map((item) => {
                 return (
 
-                    <li> {item}</li>
+                    <li> {item.value} <AiFillDelete color='red' onClick={()=>handleData(item.id)} /></li>
                 )
             })}
         </>
